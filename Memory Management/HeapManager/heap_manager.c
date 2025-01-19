@@ -10,8 +10,6 @@
 typedef struct Segment
 {
     void *memory;
-    size_t size;
-    size_t used;
     int is_free;
     struct Segment *next;
 } Segment;
@@ -38,8 +36,6 @@ void initialize_heap() // size_t segment_size, size_t initial_segments
             pthread_mutex_unlock(&heap_mutex);
             return; // Neuspešna alokacija memorije
         }
-
-        new_segment->size = SEGMENT_SIZE;
         new_segment->is_free = 1;
         new_segment->next = head;
         head = new_segment;
@@ -57,7 +53,6 @@ void* allocate_memory(size_t size)
         if (current->is_free && size <= SEGMENT_SIZE)
         {
             current->is_free = 0;
-            current->used = size;  
             pthread_mutex_unlock(&heap_mutex);
             return current->memory;
         }
@@ -76,9 +71,7 @@ void* allocate_memory(size_t size)
         pthread_mutex_unlock(&heap_mutex);
         return NULL;
     }
-
-    newSegment->size = SEGMENT_SIZE;
-    newSegment->used = size;  
+  
     newSegment->is_free = 0;
     newSegment->next = head;
     head = newSegment;
@@ -107,8 +100,7 @@ void free_memory(void *ptr)
                 return;
             }
             current->is_free = 1;
-            current->used = 0;
-            memset(current->memory, 0, current->size);
+            memset(current->memory, 0, SEGMENT_SIZE);
             is_found = 1;
             break;
         }
@@ -184,6 +176,7 @@ void showAllocatedBlocks()
     }
 }
 
+/*
 size_t used_memory() {
     pthread_mutex_lock(&heap_mutex);
     size_t used = 0;
@@ -197,4 +190,5 @@ size_t used_memory() {
     pthread_mutex_unlock(&heap_mutex);
     return used;
 }
+*/
 
