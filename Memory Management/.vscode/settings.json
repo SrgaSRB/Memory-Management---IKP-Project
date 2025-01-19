@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "circular_buffer.h": "c",
+        "array": "c",
+        "string_view": "c"
+    }
+}
