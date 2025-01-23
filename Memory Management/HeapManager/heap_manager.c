@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
+#include <stdio.h>
 
 #define MAX_FREE_SEGMENTS 5
 #define SEGMENT_SIZE 1024
 #define INITIAL_SEGMENTS 5
+#define HEAP_OVERVIEW_BUFFER_SIZE 4096
+
 
 typedef struct Segment
 {
@@ -40,10 +43,13 @@ void initialize_heap() // size_t segment_size, size_t initial_segments
         new_segment->next = head;
         head = new_segment;
     }
+
+    printf("Init heap segments success\n");
+
     pthread_mutex_unlock(&heap_mutex);
 }
 
-void* allocate_memory(size_t size)
+void *allocate_memory(size_t size)
 {
     pthread_mutex_lock(&heap_mutex);
     Segment *current = head;
@@ -54,34 +60,42 @@ void* allocate_memory(size_t size)
         {
             current->is_free = 0;
             pthread_mutex_unlock(&heap_mutex);
+            printf("%s", getHeapOverview());
             return current->memory;
         }
         current = current->next;
     }
 
     Segment *newSegment = (Segment *)malloc(sizeof(Segment));
-    if (!newSegment) {
+    if (!newSegment)
+    {
         pthread_mutex_unlock(&heap_mutex);
-        return NULL;  // Neuspešna alokacija
+        return NULL; // Neuspešna alokacija
     }
 
     newSegment->memory = malloc(SEGMENT_SIZE);
-    if (!newSegment->memory) {
+    if (!newSegment->memory)
+    {
         free(newSegment);
         pthread_mutex_unlock(&heap_mutex);
         return NULL;
     }
-  
+
     newSegment->is_free = 0;
     newSegment->next = head;
     head = newSegment;
 
     pthread_mutex_unlock(&heap_mutex);
+
+    printf("%s", getHeapOverview());
+
     return newSegment->memory;
 }
 
-
-void free_memory(void *ptr)
+//  1 uspesna delokacija
+// -1 memorija nije ni bila zauzeta (postoji)
+// -2 memorija sa datom adresom
+int free_memory(void *ptr)
 {
     pthread_mutex_lock(&heap_mutex);
 
@@ -94,10 +108,10 @@ void free_memory(void *ptr)
     {
         if (current->memory == ptr)
         {
-            if (current->is_free) //memorija nije ni bila zauzeta
+            if (current->is_free) // memorija nije ni bila zauzeta
             {
                 pthread_mutex_unlock(&heap_mutex);
-                return;
+                return -1;
             }
             current->is_free = 1;
             memset(current->memory, 0, SEGMENT_SIZE);
@@ -110,10 +124,10 @@ void free_memory(void *ptr)
         current = current->next;
     }
 
-    if (!is_found) //memorija nije nadjena sa datom adresom
+    if (!is_found) // memorija nije nadjena sa datom adresom
     {
         pthread_mutex_unlock(&heap_mutex);
-        return;
+        return -2;
     }
 
     while (free_segments > MAX_FREE_SEGMENTS)
@@ -144,6 +158,7 @@ void free_memory(void *ptr)
     }
 
     pthread_mutex_unlock(&heap_mutex);
+    return 1;
 }
 
 void destroy_heap()
@@ -169,11 +184,48 @@ void showAllocatedBlocks()
     Segment *current = head;
     while (current != NULL)
     {
-        if (!current->is_free) {
+        if (!current->is_free)
+        {
             printf("%p\n", current->memory);
         }
         current = current->next;
     }
+}
+
+char *getHeapOverview()
+{
+    pthread_mutex_lock(&heap_mutex);
+
+    static char retVal[HEAP_OVERVIEW_BUFFER_SIZE]; //nije heap memorija, alo moze biti u buducnosti
+    retVal[0] = '\0'; 
+
+    strcat(retVal, "\nHeap Overview:\n");
+    strcat(retVal, "========================================\n");
+    strcat(retVal, "| Index |      Address     |   Status  |\n");
+    strcat(retVal, "========================================\n");
+
+    Segment *current = head;
+    int segment_index = 0;
+
+    while (current != NULL)
+    {
+        char line[128];
+        snprintf(line, sizeof(line), "|  %3d  | %p | %s |\n",
+                 segment_index,
+                 current->memory,
+                 current->is_free ? "FREE     " : "ALLOCATED");
+
+        strncat(retVal, line, sizeof(retVal) - strlen(retVal) - 1);
+
+        current = current->next;
+        segment_index++;
+    }
+
+    strncat(retVal, "========================================\n", sizeof(retVal) - strlen(retVal) - 1);
+
+    pthread_mutex_unlock(&heap_mutex);
+
+    return retVal; 
 }
 
 /*
@@ -191,4 +243,3 @@ size_t used_memory() {
     return used;
 }
 */
-
