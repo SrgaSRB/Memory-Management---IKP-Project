@@ -2,6 +2,16 @@
     "files.associations": {
         "circular_buffer.h": "c",
         "array": "c",
-        "string_view": "c"
+        "string_view": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "heap_manager.h": "c",
+        "ostream": "c",
+        "system_error": "c",
+        "network.h": "c",
+        "pthread.h": "c",
+        "resource_manager.h": "c",
+        "server.h": "c",
+        "functional": "c"
     }
 }

@@ -2,43 +2,51 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
+#include <stdio.h>
 
-#define INIT_BUFFER_SIZE 10
+#define INIT_BUFFER_SIZE (size_t)10
 
-typedef struct CircularBuffer
+CircularBuffer *init_buffer()
 {
-    size_t *buffer;
-    size_t head;    // pointer for write
-    size_t tail;    // pointer for read
-    size_t capacity;
-    size_t count;   // number of elements in buffer
-    pthread_mutex_t mutex;
-    pthread_cond_t notFull;
-    pthread_cond_t notEmpty;
+    CircularBuffer *cb = (CircularBuffer *)malloc(sizeof(CircularBuffer));
+    if (!cb)
+    {
+        fprintf(stderr, "Failed to allocate memory for CircularBuffer\n");
+        exit(EXIT_FAILURE);
+    }
 
-} CircularBuffer;
+    cb->buffer = (BufferItem *)malloc(sizeof(BufferItem) * INIT_BUFFER_SIZE);
+    if (!cb->buffer)
+    {
+        free(cb);
+        fprintf(stderr, "Failed to allocate memory for buffer\n");
+        exit(EXIT_FAILURE);
+    }
 
-static CircularBuffer *cb;
+    for (size_t i = 0; i < INIT_BUFFER_SIZE; i++)
+    {
+        cb->buffer[i].operation = -1; // Invalid operation
+        cb->buffer[i].data = 0;
+    }
 
-void init_buffer(size_t size)
-{
-    cb = (CircularBuffer *)malloc(sizeof(CircularBuffer));
-    cb->buffer = (size_t *)malloc(sizeof(size_t) * size);
     cb->head = 0;
     cb->tail = 0;
     cb->capacity = INIT_BUFFER_SIZE;
     cb->count = 0;
-    pthread_mutexattr_init(&cb->mutex);
-    pthread_cond_init(cb->notEmpty, NULL);
-    pthread_cond_init(cb->notFull, NULL);
+    pthread_mutex_init(&cb->mutex, NULL);
+    pthread_cond_init(&cb->notEmpty, NULL);
+    pthread_cond_init(&cb->notFull, NULL);
+
+    printf("Init buffer success\n");
+    return cb;
 }
 
 void expandBuffer(CircularBuffer *cb)
 {
     int newCapacity = cb->capacity * 2;
-    size_t *newBuffer = (size_t *)malloc(newCapacity);
+    BufferItem *newBuffer = (BufferItem *)malloc(sizeof(BufferItem) * newCapacity);
 
-    for (int i = 0; i < cb->count; i++)
+    for (size_t i = 0; i < cb->count; i++)
     {
         newBuffer[i] = cb->buffer[(cb->tail + i) % cb->capacity];
     }
@@ -48,7 +56,7 @@ void expandBuffer(CircularBuffer *cb)
     cb->head = cb->count;
     cb->tail = 0;
 
-    printf("Buffer exend on capacity %d", cb->capacity);
+    printf("Buffer exend on capacity %zu", cb->capacity);
 }
 
 void shrinkBuffer(CircularBuffer *cb)
@@ -57,9 +65,9 @@ void shrinkBuffer(CircularBuffer *cb)
         return;
 
     size_t newCapacity = cb->capacity / 2;
-    size_t *newBuffer = (size_t *)malloc(sizeof(size_t) * newCapacity);
+    BufferItem *newBuffer = (BufferItem *)malloc(sizeof(BufferItem) * newCapacity);
 
-    for (int i = 0; i < cb->count; i++)
+    for (size_t i = 0; i < cb->count; i++)
     {
         newBuffer[i] = cb->buffer[(cb->tail + i) % cb->capacity];
     }
@@ -69,27 +77,33 @@ void shrinkBuffer(CircularBuffer *cb)
     cb->head = cb->count;
     cb->tail = 0;
 
-    printf("Buffer shrunk to capacity %d\n", cb->capacity);
+    printf("Buffer shrunk to capacity %zu\n", cb->capacity);
 }
 
-void write_buffer(CircularBuffer *cb, size_t data)
+void write_buffer(CircularBuffer *cb, int operation, size_t data)
 {
     pthread_mutex_lock(&cb->mutex);
 
+    // Proširi bafer ako je pun
     if (cb->count == cb->capacity)
     {
-        expandBuffer(&cb);
+        expandBuffer(cb);
     }
 
-    cb->buffer[cb->head] = data;
+    cb->buffer[cb->head].operation = operation;
+    cb->buffer[cb->head].data = data;
+
     cb->head = (cb->head + 1) % cb->capacity;
     cb->count++;
 
-    pthread_cond_signal(&cb->notEmpty);
+    pthread_cond_signal(&cb->notEmpty); // Signaliziraj da bafer više nije prazan
     pthread_mutex_unlock(&cb->mutex);
+
+    //printf("[Write buffer]");
+    //printBuffer(cb);
 }
 
-void read_buffer(CircularBuffer *cb)
+BufferItem read_buffer(CircularBuffer *cb)
 {
     pthread_mutex_lock(&cb->mutex);
 
@@ -100,42 +114,61 @@ void read_buffer(CircularBuffer *cb)
 
     if (cb->count < cb->capacity / 3)
     {
-        // umanji bafer za duplo
+        shrinkBuffer(cb);
     }
 
-    size_t data = cb->buffer[cb->tail];
+    BufferItem data = cb->buffer[cb->tail];
     cb->tail = (cb->tail + 1) % cb->capacity;
     cb->count--;
 
     // pthread_cond_signal(&cb->notFull);
     pthread_mutex_unlock(&cb->mutex);
 
-    // return data;
+    //printf("[Read buffer]");
+    //printBuffer(cb);
+
+    return data;
 }
 
-void destroy_buffer()
+void destroy_buffer(CircularBuffer *cb)
 {
     free(cb->buffer);
     pthread_mutex_destroy(&cb->mutex);
+    pthread_cond_destroy(&cb->notEmpty);
+    pthread_cond_destroy(&cb->notFull);
 }
 
 void printBuffer(CircularBuffer *cb)
 {
-    printf("[ ");
+    pthread_mutex_lock(&cb->mutex);
+    printf("\n[ ");
 
-    for (int i = 0; i < cb->count; i++)
+    for (size_t i = 0; i < cb->capacity; i++)
     {
-        if (cb->tail <= cb->head)
+        if (cb->count == cb->capacity)
         {
-            printf("%d, ", cb->buffer[cb->tail + i]);
+            // Buffer je pun
+            printf("%zu, ", cb->buffer[i].data);
         }
-        else if (cb->tail > cb->head)
+        else if (cb->tail <= cb->head && i >= cb->tail && i < cb->head)
         {
-            printf("%d, ", cb->buffer[(cb->tail + i) % cb->capacity]);
+            printf("%zu, ", cb->buffer[i].data);
+        }
+        else if (cb->tail > cb->head && (i >= cb->tail || i < cb->head))
+        {
+            printf("%zu, ", cb->buffer[i].data);
         }
         else
         {
-            printf("., ");
+            printf(". ");
         }
     }
+
+    printf("] ");
+    printf("Tail: %zu ", cb->tail);
+    printf("Head: %zu ", cb->head);
+    printf("Count: %zu ", cb->count);
+    printf("Capacity: %zu \n\n", cb->capacity);
+
+    pthread_mutex_unlock(&cb->mutex);
 }
