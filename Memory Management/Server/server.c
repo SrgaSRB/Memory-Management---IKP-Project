@@ -39,7 +39,7 @@ void process_task(void *arg)
 
         if (retVal == 1)
         {
-            snprintf(messengerBuffer, sizeof(messengerBuffer), "Deallocated memory at address %p\n", item.data, retVal);
+            snprintf(messengerBuffer, sizeof(messengerBuffer), "Deallocated memory at address %p\n", item.data, retVal); // Uredi format i ispis
         }
         else if (retVal == -1)
         {
@@ -115,7 +115,7 @@ void *handle_client(void *arg)
             write_buffer(cb, 2, (size_t)address);
             logMessage("BUFFER", "Memory deallocation request written to buffer.");
             // printBuffer(cb);
-            send_data(client_socket, "Success deallocate\n.", 21);
+            send_data(client_socket, "Success deallocate\n.", 21); //FIX: nije jos delocirana samo je stavljena u red zadelokaciju
         }
         else if (strcmp(buffer, "GET_HEAP") == 0)
         {
