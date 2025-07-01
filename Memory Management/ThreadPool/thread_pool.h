@@ -22,6 +22,8 @@ typedef struct ThreadPool {
     size_t head;                // Pokazivač na početak reda
     size_t tail;                // Pokazivač na kraj reda
     size_t num_threads;         // Broj niti u pool-u
+    int active_workers;         // Broj aktivnih radnika u trenutku
+    int executed_tasks;         // Suma uradjenih zadataka 
     int stop;                   // Signal za zaustavljanje
 
     pthread_mutex_t queue_mutex;
@@ -29,9 +31,10 @@ typedef struct ThreadPool {
     pthread_cond_t queue_not_full;
 } ThreadPool;
 
-// Funkcije za upravljanje thread pool-om
 ThreadPool* thread_pool_init(size_t num_threads);
 void thread_pool_add_task(ThreadPool* pool, task_function_t function, void* arg);
+int get_active_workers(ThreadPool *pool);
+int get_executed_tasks(ThreadPool *pool);
 void thread_pool_destroy(ThreadPool* pool);
 
 #endif

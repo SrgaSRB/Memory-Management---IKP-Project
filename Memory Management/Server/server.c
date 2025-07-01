@@ -11,11 +11,18 @@
 #include <ws2tcpip.h>
 #include <windows.h>
 
-typedef struct
+typedef struct ClientArgs
 {
     int client_socket;
     CircularBuffer *cb;
+    ThreadPool *pool;
 } ClientArgs;
+
+typedef struct ReaderArgs
+{
+    CircularBuffer *cb;
+    ThreadPool *pool;
+} ReaderArgs;
 
 void logMessage(const char *tag, const char *message)
 {
@@ -24,9 +31,12 @@ void logMessage(const char *tag, const char *message)
 
 void process_task(void *arg)
 {
-    BufferItem item = *(BufferItem *)arg;
+    BufferItem *p = (BufferItem *)arg;
+    BufferItem item = *p;
+    free(p);
 
     char messengerBuffer[1024] = "\0";
+
     if (item.operation == 1)
     { // ALLOCATE
         void *mem = allocate_memory(item.data);
@@ -53,14 +63,25 @@ void process_task(void *arg)
 
 void *buffer_reader(void *arg)
 {
-    CircularBuffer *cb = ((CircularBuffer **)arg)[0];
-    ThreadPool *pool = ((ThreadPool **)arg)[1];
+    ReaderArgs *reader_args = (ReaderArgs *)arg;
+    CircularBuffer *cb = reader_args->cb;
+    ThreadPool *pool = reader_args->pool;
+
+    free(reader_args);
 
     while (1)
     {
         BufferItem item = read_buffer(cb);
-        thread_pool_add_task(pool, process_task, &item);
-        Sleep(5000);
+        BufferItem *copy = malloc(sizeof(BufferItem));
+
+        if (!copy)
+        {
+            perror("malloc failed");
+            continue;
+        }
+
+        *copy = item;
+        thread_pool_add_task(pool, process_task, copy);
     }
 
     return NULL;
@@ -69,8 +90,11 @@ void *buffer_reader(void *arg)
 void *handle_client(void *arg)
 {
     ClientArgs *args = (ClientArgs *)arg;
+
     int client_socket = args->client_socket;
     CircularBuffer *cb = args->cb;
+    ThreadPool *pool = args->pool;
+
     free(arg);
 
     char buffer[1024];
@@ -115,7 +139,7 @@ void *handle_client(void *arg)
             write_buffer(cb, 2, (size_t)address);
             logMessage("BUFFER", "Memory deallocation request written to buffer.");
             // printBuffer(cb);
-            send_data(client_socket, "Success deallocate\n.", 21); //FIX: nije jos delocirana samo je stavljena u red zadelokaciju
+            send_data(client_socket, "Success deallocate\n.", 21); // FIX: nije jos delocirana samo je stavljena u red zadelokaciju
         }
         else if (strcmp(buffer, "GET_HEAP") == 0)
         {
@@ -130,6 +154,25 @@ void *handle_client(void *arg)
                 logMessage("ERROR", "Failed to generate heap overview.");
                 send_data(client_socket, "Error generating heap overview.\n", 32);
             }
+        }
+        else if (strcmp(buffer, "MONITORING") == 0)
+        {
+            char status_buffer[65536];
+
+            char *bufferInfo = get_buffer_size(cb);
+            //char *heapInfo = getHeapOverview(); // Kada radim sa testom, brzo se napuni buffer
+            int activeWorkers = get_active_workers(pool);
+            int completedTasks = get_executed_tasks(pool);
+
+            //dodaj %s\n na pocetak stringa za ispis heap-a
+            snprintf(status_buffer, sizeof(status_buffer),
+                     "Buffer Info:\n%s\nActive Workers: %d\nCompleted Tasks: %d\n",
+                    //heapInfo ? heapInfo : "Heap Unavailable",
+                     bufferInfo ? bufferInfo : "Unavailable",
+                     activeWorkers, completedTasks);
+
+            send_data(client_socket, status_buffer, strlen(status_buffer));
+            free(bufferInfo);
         }
         else
         {
@@ -147,8 +190,19 @@ void run_server(CircularBuffer *cb, ThreadPool *pool)
     int server_fd = start_server(8080);
     printf("Server is running on port 8080...\n");
 
+    ReaderArgs *reader_args = malloc(sizeof(ReaderArgs));
+    if (reader_args == NULL)
+    {
+        perror("Failed to allocate memory for reader args");
+        closesocket(server_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    reader_args->cb = cb;
+    reader_args->pool = pool;
+
     pthread_t reader_thread;
-    pthread_create(&reader_thread, NULL, buffer_reader, (void *[]){cb, pool});
+    pthread_create(&reader_thread, NULL, buffer_reader, reader_args);
 
     while (1)
     {
@@ -174,11 +228,13 @@ void run_server(CircularBuffer *cb, ThreadPool *pool)
         }
         args->client_socket = client_socket;
         args->cb = cb;
+        args->pool = pool;
 
         pthread_t client_thread;
         pthread_create(&client_thread, NULL, handle_client, args);
         pthread_detach(client_thread); // Detach kako ne bismo morali da čekamo niti
     }
 
+    WSACleanup();
     closesocket(server_fd);
 }

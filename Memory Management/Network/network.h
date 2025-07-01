@@ -11,6 +11,7 @@
 // Definicija portova
 #define SERVER_PORT 8080
 #define CLIENT_PORT 8081
+#define CLIENT_MONITORING_PORT 8082
 
 int start_server(int port);
 int start_client(int port, const char* ip);

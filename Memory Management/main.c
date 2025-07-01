@@ -1,4 +1,4 @@
-#include "server.h"
+#include "Server/server.h"
 #include "Buffer/circular_buffer.h"
 #include "ThreadPool/thread_pool.h"
 #include "HeapManager/heap_manager.h"
@@ -49,6 +49,7 @@ void run_client() {
 }
 
 int main() {
+    
     int choice;
     printf("Choose mode:\n1 -> Run Server\n2 -> Run Client\n");
     scanf("%d", &choice);

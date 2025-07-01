@@ -7,7 +7,7 @@
 #define MAX_FREE_SEGMENTS 5
 #define SEGMENT_SIZE 1024
 #define INITIAL_SEGMENTS 5
-#define HEAP_OVERVIEW_BUFFER_SIZE 4096
+#define HEAP_OVERVIEW_BUFFER_SIZE 65536 // 2^16
 
 
 typedef struct Segment
@@ -93,8 +93,8 @@ void *allocate_memory(size_t size)
 }
 
 //  1 uspesna delokacija
-// -1 memorija nije ni bila zauzeta (postoji)
-// -2 memorija sa datom adresom
+// -1 memorija nije ni bila zauzeta (ali postoji)
+// -2 memorija sa datom adresom nije nadjena
 int free_memory(void *ptr)
 {
     pthread_mutex_lock(&heap_mutex);

@@ -121,7 +121,7 @@ BufferItem read_buffer(CircularBuffer *cb)
     cb->tail = (cb->tail + 1) % cb->capacity;
     cb->count--;
 
-    // pthread_cond_signal(&cb->notFull);
+    pthread_cond_signal(&cb->notFull);
     pthread_mutex_unlock(&cb->mutex);
 
     //printf("[Read buffer]");
@@ -171,4 +171,18 @@ void printBuffer(CircularBuffer *cb)
     printf("Capacity: %zu \n\n", cb->capacity);
 
     pthread_mutex_unlock(&cb->mutex);
+}
+
+char* get_buffer_size(CircularBuffer *cb)
+{
+    pthread_mutex_lock(&cb->mutex);
+    int size = cb->count;
+    int capacity = cb->capacity;
+    pthread_mutex_unlock(&cb->mutex);
+
+    char *retBuffer = (char *)malloc(64);
+    if (retBuffer != NULL) {
+        snprintf(retBuffer, 64, "Size: %d, Capacity: %d", size, capacity);
+    }
+    return retBuffer;
 }

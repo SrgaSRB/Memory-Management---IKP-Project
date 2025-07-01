@@ -1,18 +1,22 @@
 #include "thread_pool.h"
 
 // Funkcija niti za obradu zadataka
-static void* thread_worker(void* arg) {
-    ThreadPool* pool = (ThreadPool*)arg;
+static void *thread_worker(void *arg)
+{
+    ThreadPool *pool = (ThreadPool *)arg;
 
-    while (1) {
+    while (1)
+    {
         pthread_mutex_lock(&pool->queue_mutex);
 
         // Čekaj dok red nije prazan ili dok pool nije zaustavljen
-        while (pool->task_count == 0 && !pool->stop) {
+        while (pool->task_count == 0 && !pool->stop)
+        {
             pthread_cond_wait(&pool->queue_not_empty, &pool->queue_mutex);
         }
 
-        if (pool->stop) {
+        if (pool->stop)
+        {
             pthread_mutex_unlock(&pool->queue_mutex);
             pthread_exit(NULL);
         }
@@ -26,28 +30,40 @@ static void* thread_worker(void* arg) {
         pthread_cond_signal(&pool->queue_not_full);
         pthread_mutex_unlock(&pool->queue_mutex);
 
-        // Obrada zadatka
+        pthread_mutex_lock(&pool->queue_mutex);
+        pool->active_workers++;
+        pthread_mutex_unlock(&pool->queue_mutex);
+
         task.function(task.argument);
+
+        pthread_mutex_lock(&pool->queue_mutex);
+        pool->active_workers--;
+        pool->executed_tasks++;
+        pthread_mutex_unlock(&pool->queue_mutex);
     }
 
     return NULL;
 }
 
 // Inicijalizacija thread pool-a
-ThreadPool* thread_pool_init(size_t num_threads) {
-    ThreadPool* pool = (ThreadPool*)malloc(sizeof(ThreadPool));
-    if (!pool) {
+ThreadPool *thread_pool_init(size_t num_threads)
+{
+    ThreadPool *pool = (ThreadPool *)malloc(sizeof(ThreadPool));
+    if (!pool)
+    {
         fprintf(stderr, "Failed to allocate memory for thread pool\n");
         return NULL;
     }
 
     pool->num_threads = num_threads;
     pool->queue_size = num_threads * 2; // Red može imati više zadataka od broja niti
-    pool->task_queue = (Task*)malloc(sizeof(Task) * pool->queue_size);
-    pool->threads = (pthread_t*)malloc(sizeof(pthread_t) * num_threads);
+    pool->task_queue = (Task *)malloc(sizeof(Task) * pool->queue_size);
+    pool->threads = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);
     pool->task_count = 0;
     pool->head = 0;
     pool->tail = 0;
+    pool->active_workers = 0;
+    pool->executed_tasks = 0;
     pool->stop = 0;
 
     pthread_mutex_init(&pool->queue_mutex, NULL);
@@ -55,7 +71,8 @@ ThreadPool* thread_pool_init(size_t num_threads) {
     pthread_cond_init(&pool->queue_not_full, NULL);
 
     // Kreiranje niti
-    for (size_t i = 0; i < num_threads; i++) {
+    for (size_t i = 0; i < num_threads; i++)
+    {
         pthread_create(&pool->threads[i], NULL, thread_worker, pool);
     }
 
@@ -63,11 +80,13 @@ ThreadPool* thread_pool_init(size_t num_threads) {
 }
 
 // Dodavanje zadatka u red
-void thread_pool_add_task(ThreadPool* pool, task_function_t function, void* arg) {
+void thread_pool_add_task(ThreadPool *pool, task_function_t function, void *arg)
+{
     pthread_mutex_lock(&pool->queue_mutex);
 
     // Čekaj dok red nije pun
-    while (pool->task_count == pool->queue_size) {
+    while (pool->task_count == pool->queue_size)
+    {
         pthread_cond_wait(&pool->queue_not_full, &pool->queue_mutex);
     }
 
@@ -83,7 +102,9 @@ void thread_pool_add_task(ThreadPool* pool, task_function_t function, void* arg)
 }
 
 // Uništavanje thread pool-a
-void thread_pool_destroy(ThreadPool* pool) {
+void thread_pool_destroy(ThreadPool *pool)
+{
+
     pthread_mutex_lock(&pool->queue_mutex);
     pool->stop = 1;
 
@@ -92,7 +113,8 @@ void thread_pool_destroy(ThreadPool* pool) {
     pthread_mutex_unlock(&pool->queue_mutex);
 
     // Čekaj da sve niti završe
-    for (size_t i = 0; i < pool->num_threads; i++) {
+    for (size_t i = 0; i < pool->num_threads; i++)
+    {
         pthread_join(pool->threads[i], NULL);
     }
 
@@ -102,4 +124,20 @@ void thread_pool_destroy(ThreadPool* pool) {
     pthread_cond_destroy(&pool->queue_not_empty);
     pthread_cond_destroy(&pool->queue_not_full);
     free(pool);
+}
+
+int get_active_workers(ThreadPool *pool)
+{
+    pthread_mutex_lock(&pool->queue_mutex);
+    int workers = pool->active_workers;
+    pthread_mutex_unlock(&pool->queue_mutex);
+    return workers;
+}
+
+int get_executed_tasks(ThreadPool *pool)
+{
+    pthread_mutex_lock(&pool->queue_mutex);
+    int executed_tasks = pool->executed_tasks;
+    pthread_mutex_unlock(&pool->queue_mutex);
+    return executed_tasks;
 }
