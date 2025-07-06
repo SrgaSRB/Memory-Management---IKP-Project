@@ -17,6 +17,7 @@ typedef enum
     FIRST_FIT,
     NEXT_FIT
 } allocation_algorithm_t;
+
 typedef struct Segment
 {
     void *memory;
@@ -36,12 +37,12 @@ static inline void switch_allocation_algorithm(void)
     if (alloc_algo == FIRST_FIT && segment_count > SEGMENTS_HIGH_LIMIT)
     {
         alloc_algo = NEXT_FIT;
-        //printf("[HEAP] Allocation algorithm switch to NEXT FIT");
+        // printf("[HEAP] Allocation algorithm switch to NEXT FIT");
     }
     else if (alloc_algo == NEXT_FIT && segment_count < SEGMENTS_LOW_LIMIT)
     {
         alloc_algo = FIRST_FIT;
-        //printf("[HEAP] Allocation algorithm switch to FIRST FIT");
+        // printf("[HEAP] Allocation algorithm switch to FIRST FIT");
     }
 }
 // inline za poboljsanje performansi

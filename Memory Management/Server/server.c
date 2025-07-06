@@ -24,9 +24,36 @@ typedef struct ReaderArgs
     ThreadPool *pool;
 } ReaderArgs;
 
+static FILE *log_file = NULL;
+
+void init_log_file()
+{
+    char filename[64];
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    strftime(filename, sizeof(filename), "log_%Y%m%d_%H%M%S.txt", t);
+
+    log_file = fopen(filename, "w");
+    if (!log_file)
+    {
+        perror("Failed to create log file");
+        exit(EXIT_FAILURE);
+    }
+}
+
 void logMessage(const char *tag, const char *message)
 {
-    printf("[%s] %s\n", tag, message);
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    char timebuf[32];
+    strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", t);
+
+    printf("[%s] [%s] %s\n", timebuf, tag, message);
+    if (log_file)
+    {
+        fprintf(log_file, "[%s] [%s] %s\n", timebuf, tag, message);
+        fflush(log_file);
+    }
 }
 
 void process_task(void *arg)
@@ -53,9 +80,15 @@ void process_task(void *arg)
         }
         else if (retVal == -1)
         {
+            snprintf(messengerBuffer, sizeof(messengerBuffer), "Failed to deallocate memory at address %p (not allocated)\n", item.data);
         }
         else if (retVal == -2)
         {
+            snprintf(messengerBuffer, sizeof(messengerBuffer), "Failed to deallocate memory at address %p (already freed)\n", item.data);
+        }
+        else
+        {
+            snprintf(messengerBuffer, sizeof(messengerBuffer), "Unknown error while deallocating memory at address %p\n", item.data);
         }
     }
     logMessage("HEAP", messengerBuffer);
@@ -110,8 +143,11 @@ void *handle_client(void *arg)
             break;
         }
 
-        //logMessage("REQUEST", buffer);
-
+        if (!strcmp(buffer, "MONITORING") == 0)
+        {
+            logMessage("REQUEST", buffer);
+        }
+        
         if (strcmp(buffer, "ALLOCATE") == 0)
         {
             memset(size_buffer, 0, sizeof(size_buffer));
@@ -158,15 +194,15 @@ void *handle_client(void *arg)
             char status_buffer[65536];
 
             char *bufferInfo = get_buffer_size(cb);
-            //char *heapInfo = getHeapOverview(); // Kada radim sa testom, brzo se napuni buffer
+            // char *heapInfo = getHeapOverview(); // Kada radim sa testom, brzo se napuni buffer
             int activeWorkers = get_active_workers(pool);
             int completedTasks = get_executed_tasks(pool);
             int highActiveWorkers = get_high_active_workers(pool);
 
-            //dodaj %s\n na pocetak stringa za ispis heap-a
+            // dodaj %s\n na pocetak stringa za ispis heap-a
             snprintf(status_buffer, sizeof(status_buffer),
                      "Buffer Info:\n%s\nActive Workers: %d (HIGH: %d)\nCompleted Tasks: %d\n",
-                    //heapInfo ? heapInfo : "Heap Unavailable",
+                     // heapInfo ? heapInfo : "Heap Unavailable",
                      bufferInfo ? bufferInfo : "Unavailable",
                      activeWorkers, highActiveWorkers, completedTasks);
 
@@ -186,6 +222,9 @@ void *handle_client(void *arg)
 
 void run_server(CircularBuffer *cb, ThreadPool *pool)
 {
+    init_log_file();
+    logMessage("SERVER", "Server started");
+
     int server_fd = start_server(8080);
     printf("Server is running on port 8080...\n");
 

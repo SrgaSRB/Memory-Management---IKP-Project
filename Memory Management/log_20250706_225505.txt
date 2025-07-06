@@ -1,0 +1,677 @@
+[SERVER] Server started
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] ALLOCATE512
+[ERROR] Unknown request.
+[REQUEST] MONITORING
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770506b20
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705066f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705062c0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770501a00
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705015d0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050bb60
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050bf70
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050c380
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050c790
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050cba0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050cfb0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050d3c0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050d7d0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050dbe0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050dff0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050e400
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977050e810
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705139b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770512970
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770512560
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770511d40
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770512150
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770510d00
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705100d0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705104e0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705108f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770511930
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770512d80
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770511110
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770511520
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770513190
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705135a0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051bac0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770518e10
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705181e0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705185f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770518a00
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770519e50
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770515d50
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770515530
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051a260
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770519a40
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770515120
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051b2a0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770516570
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770519220
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051a670
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770516160
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770517dd0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770519630
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051aa80
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051ae90
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051b6b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705140e0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705144f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770515940
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770514900
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770514d10
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770516980
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770516d90
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705171a0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705175b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705179c0
+
+[REQUEST] ALLOCATE
+[REQUEST] MONITORING
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770520a00
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705205f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051e980
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051c900
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770521a40
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051dd50
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051ed90
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051e160
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770522260
+
+[SERVER] Client disconnected.
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] ALLOCATE512
+[ERROR] Unknown request.
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770520e10
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051e570
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051cd10
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770521e50
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770522a80
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051f9c0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051f1a0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770523ac0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051f5b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770521220
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051d530
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770521630
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051fdd0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770522670
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705201e0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051d940
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770522e90
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705232a0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705236b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770523ed0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705242e0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977051d120
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052bac0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052b2a0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052a670
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052aa80
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052b6b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052ae90
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770526160
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052bed0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770525d50
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770529220
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705279c0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052c2e0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770526d90
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770527dd0
+
+[REQUEST] MONITORING
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770529630
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052c6f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770528a00
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052cb00
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770529a40
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705271a0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770525120
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770525530
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770525940
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770526980
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770526570
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705275b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705281e0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705285f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770528e10
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770529e50
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052a260
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770532680
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052f1b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770531e60
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770532a90
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052dd60
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770530600
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770532ea0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052e170
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705342f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052fde0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705332b0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052d950
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052d130
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770534700
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770531640
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705301f0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 00000297705336c0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052e580
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770533ad0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052d540
+
+[REQUEST] ALLOCATE512
+[ERROR] Unknown request.
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052e990
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052f9d0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770534b10
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 000002977052eda0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770533ee0
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770530a10
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770532270
+
+[REQUEST] ALLOCATE
+[BUFFER] Memory allocation request written to buffer.
+[HEAP] Allocated 512 bytes on memory address 0000029770531a50
+
+[SERVER] Client disconnected.
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[REQUEST] MONITORING
+[SERVER] Client disconnected.

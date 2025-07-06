@@ -26,7 +26,7 @@ int main()
 
         recive_data(sock, buffer, sizeof(buffer));
         printf("== MONITORING INFO ==\n%s\n\n", buffer);
-        Sleep(100);
+        Sleep(2000);
     }
 
     closesocket(sock);

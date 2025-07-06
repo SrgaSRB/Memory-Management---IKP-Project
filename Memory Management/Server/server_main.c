@@ -3,7 +3,7 @@
 #include "../ThreadPool/thread_pool.h"
 #include "../HeapManager/heap_manager.h"
 
-#define THREAD_COUNT 8
+#define THREAD_COUNT 2
 
 int main() {
     // Inicijalizacija resursa

@@ -1,0 +1,6 @@
+[2025-07-06 23:08:25] [SERVER] Server started
+[2025-07-06 23:08:41] [REQUEST] ALLOCATE
+[2025-07-06 23:08:43] [BUFFER] Memory allocation request written to buffer.
+[2025-07-06 23:08:43] [HEAP] Allocated 4 bytes on memory address 00000210b8fa6b20
+
+[2025-07-06 23:08:50] [SERVER] Client disconnected.
