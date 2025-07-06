@@ -1,89 +1,73 @@
+#include "../Network/network.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include "../Network/network.h"
 
 int main()
 {
-    WSADATA wsaData;
-    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-    {
-        fprintf(stderr, "WSAStartup failed.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    int sock = start_client(SERVER_PORT, "127.0.0.1");
-    if (sock < 0)
-    {
-        fprintf(stderr, "Failed to connect to server.\n");
-        WSACleanup();
-        exit(EXIT_FAILURE);
-    }
+    int client_socket = start_client(8080, "127.0.0.1");
 
     char buffer[1024];
     while (1)
     {
-        printf("Enter request \n1 -> ALLOCATE\n2 -> DEALLOCATE\n3 -> EXIT: ");
+        memset(buffer, 0, sizeof(buffer));
+        printf("Enter request: 1 -> ALLOCATE, 2 -> DEALLOCATE, 3 -> EXIT, 4-> PRINT HEAP : ");
         fgets(buffer, sizeof(buffer), stdin);
         buffer[strcspn(buffer, "\n")] = 0; // Ukloni '\n'
+        printf("Sending request: %s\n", buffer);
 
-        printf("%s\n", buffer);
-
-        if (!strcmp(buffer, "1") && !strcmp(buffer, "2") && !strcmp(buffer, "3"))
+        if (strcmp(buffer, "1") == 0)
         {
-            printf("\nIncorrect entry!\n\n");
-            continue;
-        }
 
-        if (!strcmp(buffer, "1"))
-        {
-            while (1)
+            send_data(client_socket, "ALLOCATE", strlen("ALLOCATE"));
+
+            printf("Enter memory size for ALLOCATE: ");
+            fgets(buffer, sizeof(buffer), stdin);
+            buffer[strcspn(buffer, "\n")] = 0;
+
+            char *endptr;
+            size_t size = strtoul(buffer, &endptr, 10);
+
+            if (*endptr != '\0' || size == 0)
             {
-
-                send_data(sock, "ALLOCATE", strlen("ALLOCATE"));
-
-                printf("Enter memory size for ALLOCATE: ");
-                fgets(buffer, sizeof(buffer), stdin);
-                buffer[strcspn(buffer, "\n")] = 0;
-
-                // Validacija unosa veličine
-                char *endptr;
-                size_t size = strtoul(buffer, &endptr, 10);
-                if (*endptr != '\0' || size == 0)
-                {
-                    printf("Invalid size entered!\n");
-                    continue;
-                }
-
-                send_data(sock, buffer, strlen(buffer));
+                printf("Invalid size entered! Try again.\n");
+                continue;
             }
+
+            send_data(client_socket, buffer, strlen(buffer));
+            // memset(buffer, 0, sizeof(buffer)); // obrisati nakon ukidanja while petelje
         }
-        else if (!strcmp(buffer, "2"))
+        else if (strcmp(buffer, "2") == 0)
         {
-            send_data(sock, "DEALLOCATE", strlen("DEALLOCATE"));
+            send_data(client_socket, "DEALLOCATE", strlen("DEALLOCATE"));
+
+            printf("Enter memory address to deallocate: ");
+            fgets(buffer, sizeof(buffer), stdin);
+            buffer[strcspn(buffer, "\n")] = 0;
+
+            send_data(client_socket, buffer, strlen(buffer));
         }
-        else if (!strcmp(buffer, "3"))
+        else if (strcmp(buffer, "3") == 0)
         {
-            send_data(sock, "EXIT", strlen("EXIT"));
-            printf("Disconnected from server.\n");
+            send_data(client_socket, "EXIT", strlen("EXIT"));
             break;
+        }
+        else if (strcmp(buffer, "4") == 0)
+        {
+            send_data(client_socket, "GET_HEAP", strlen("GET_HEAP"));
         }
         else
         {
-            memset(buffer, 0, sizeof(buffer));
-            printf("\nIncorrect entry!\n\n");
+            printf("Invalid option.\n");
             continue;
         }
 
-        // Čitaj odgovor servera
-        memset(buffer, 0, sizeof(buffer));
-        recive_data(sock, buffer, sizeof(buffer));
+        // Primi odgovor servera
+
+        recive_data(client_socket, buffer, sizeof(buffer));
         printf("Server response: %s\n", buffer);
     }
 
-    closesocket(sock);
-    WSACleanup();
+    closesocket(client_socket);
     return 0;
 }

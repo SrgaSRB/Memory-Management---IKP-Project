@@ -51,8 +51,8 @@ void expandBuffer(CircularBuffer *cb)
         newBuffer[i] = cb->buffer[(cb->tail + i) % cb->capacity];
     }
     free(cb->buffer);
-    cb->capacity = newCapacity;
     cb->buffer = newBuffer;
+    cb->capacity = newCapacity;
     cb->head = cb->count;
     cb->tail = 0;
 
@@ -96,7 +96,7 @@ void write_buffer(CircularBuffer *cb, int operation, size_t data)
     cb->head = (cb->head + 1) % cb->capacity;
     cb->count++;
 
-    pthread_cond_signal(&cb->notEmpty); // Signaliziraj da bafer više nije prazan
+    pthread_cond_signal(&cb->notEmpty);
     pthread_mutex_unlock(&cb->mutex);
 
     //printf("[Write buffer]");

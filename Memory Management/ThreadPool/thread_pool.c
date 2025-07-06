@@ -37,6 +37,12 @@ static void *thread_worker(void *arg)
         task.function(task.argument);
 
         pthread_mutex_lock(&pool->queue_mutex);
+
+        if(pool->active_workers > pool->high_active_workers)
+        {
+            pool->high_active_workers = pool->active_workers;
+        }
+
         pool->active_workers--;
         pool->executed_tasks++;
         pthread_mutex_unlock(&pool->queue_mutex);
@@ -140,4 +146,12 @@ int get_executed_tasks(ThreadPool *pool)
     int executed_tasks = pool->executed_tasks;
     pthread_mutex_unlock(&pool->queue_mutex);
     return executed_tasks;
+}
+
+int get_high_active_workers(ThreadPool *pool)
+{
+    pthread_mutex_lock(&pool->queue_mutex);
+    int high_workers = pool->high_active_workers;
+    pthread_mutex_unlock(&pool->queue_mutex);
+    return high_workers;
 }

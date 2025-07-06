@@ -20,7 +20,7 @@ int main()
     {
         send_data(sock, "ALLOCATE", strlen("ALLOCATE"));
         send_data(sock, "512", strlen("512"));
-        Sleep(5);
+        Sleep(10);
     }
 
     closesocket(sock);

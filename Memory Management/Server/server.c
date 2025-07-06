@@ -110,7 +110,7 @@ void *handle_client(void *arg)
             break;
         }
 
-        logMessage("REQUEST", buffer);
+        //logMessage("REQUEST", buffer);
 
         if (strcmp(buffer, "ALLOCATE") == 0)
         {
@@ -127,7 +127,6 @@ void *handle_client(void *arg)
 
             write_buffer(cb, 1, size);
             logMessage("BUFFER", "Memory allocation request written to buffer.");
-            // printBuffer(cb);
             send_data(client_socket, "Success allocate\n.", 19);
         }
         else if (strcmp(buffer, "DEALLOCATE") == 0)
@@ -138,7 +137,6 @@ void *handle_client(void *arg)
 
             write_buffer(cb, 2, (size_t)address);
             logMessage("BUFFER", "Memory deallocation request written to buffer.");
-            // printBuffer(cb);
             send_data(client_socket, "Success deallocate\n.", 21); // FIX: nije jos delocirana samo je stavljena u red zadelokaciju
         }
         else if (strcmp(buffer, "GET_HEAP") == 0)
@@ -163,13 +161,14 @@ void *handle_client(void *arg)
             //char *heapInfo = getHeapOverview(); // Kada radim sa testom, brzo se napuni buffer
             int activeWorkers = get_active_workers(pool);
             int completedTasks = get_executed_tasks(pool);
+            int highActiveWorkers = get_high_active_workers(pool);
 
             //dodaj %s\n na pocetak stringa za ispis heap-a
             snprintf(status_buffer, sizeof(status_buffer),
-                     "Buffer Info:\n%s\nActive Workers: %d\nCompleted Tasks: %d\n",
+                     "Buffer Info:\n%s\nActive Workers: %d (HIGH: %d)\nCompleted Tasks: %d\n",
                     //heapInfo ? heapInfo : "Heap Unavailable",
                      bufferInfo ? bufferInfo : "Unavailable",
-                     activeWorkers, completedTasks);
+                     activeWorkers, highActiveWorkers, completedTasks);
 
             send_data(client_socket, status_buffer, strlen(status_buffer));
             free(bufferInfo);

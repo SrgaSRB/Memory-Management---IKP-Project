@@ -24,6 +24,7 @@ typedef struct ThreadPool {
     size_t num_threads;         // Broj niti u pool-u
     int active_workers;         // Broj aktivnih radnika u trenutku
     int executed_tasks;         // Suma uradjenih zadataka 
+    int high_active_workers; // Najveći broj aktivnih radnika u jednom trenutku
     int stop;                   // Signal za zaustavljanje
 
     pthread_mutex_t queue_mutex;
@@ -36,5 +37,6 @@ void thread_pool_add_task(ThreadPool* pool, task_function_t function, void* arg)
 int get_active_workers(ThreadPool *pool);
 int get_executed_tasks(ThreadPool *pool);
 void thread_pool_destroy(ThreadPool* pool);
+int get_high_active_workers(ThreadPool *pool);
 
 #endif

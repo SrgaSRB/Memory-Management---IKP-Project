@@ -9,7 +9,14 @@
 #define INITIAL_SEGMENTS 5
 #define HEAP_OVERVIEW_BUFFER_SIZE 65536 // 2^16
 
+#define SEGMENTS_HIGH_LIMIT 1024
+#define SEGMENTS_LOW_LIMIT 768
 
+typedef enum
+{
+    FIRST_FIT,
+    NEXT_FIT
+} allocation_algorithm_t;
 typedef struct Segment
 {
     void *memory;
@@ -20,6 +27,27 @@ typedef struct Segment
 static Segment *head = NULL;
 static pthread_mutex_t heap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+static allocation_algorithm_t alloc_algo = FIRST_FIT;
+static Segment *last_allocated = NULL;
+static size_t segment_count = 0;
+
+static inline void switch_allocation_algorithm(void)
+{
+    if (alloc_algo == FIRST_FIT && segment_count > SEGMENTS_HIGH_LIMIT)
+    {
+        alloc_algo = NEXT_FIT;
+        //printf("[HEAP] Allocation algorithm switch to NEXT FIT");
+    }
+    else if (alloc_algo == NEXT_FIT && segment_count < SEGMENTS_LOW_LIMIT)
+    {
+        alloc_algo = FIRST_FIT;
+        //printf("[HEAP] Allocation algorithm switch to FIRST FIT");
+    }
+}
+// inline za poboljsanje performansi
+// void u argumentima jer tako javljam da nemam nikakve argumente, dok praznu gleda kao da ne zna koliko ih ima
+// moze i samo void switch_allocation_algorithm(), ali ovako malo poboljsava performanse
+
 void initialize_heap() // size_t segment_size, size_t initial_segments
 {
     pthread_mutex_lock(&heap_mutex);
@@ -29,7 +57,7 @@ void initialize_heap() // size_t segment_size, size_t initial_segments
         if (!new_segment)
         {
             pthread_mutex_unlock(&heap_mutex);
-            return; // Neuspešna alokacija
+            return;
         }
 
         new_segment->memory = malloc(SEGMENT_SIZE);
@@ -37,12 +65,15 @@ void initialize_heap() // size_t segment_size, size_t initial_segments
         {
             free(new_segment);
             pthread_mutex_unlock(&heap_mutex);
-            return; // Neuspešna alokacija memorije
+            return;
         }
         new_segment->is_free = 1;
         new_segment->next = head;
         head = new_segment;
     }
+
+    last_allocated = head;
+    segment_count += INITIAL_SEGMENTS;
 
     printf("Init heap segments success\n");
 
@@ -52,18 +83,37 @@ void initialize_heap() // size_t segment_size, size_t initial_segments
 void *allocate_memory(size_t size)
 {
     pthread_mutex_lock(&heap_mutex);
-    Segment *current = head;
+
+    Segment *start = NULL;
+    if (alloc_algo == FIRST_FIT)
+    {
+        start = head;
+    }
+    else
+    {
+        start = last_allocated->next;
+    }
+
+    // dosli smo do kraja
+    if (start == NULL)
+        start = head;
+
+    Segment *current = start;
 
     while (current)
     {
         if (current->is_free && size <= SEGMENT_SIZE)
         {
             current->is_free = 0;
+            last_allocated = current;
             pthread_mutex_unlock(&heap_mutex);
-            printf("%s", getHeapOverview());
+            // printf("%s", getHeapOverview());
             return current->memory;
         }
-        current = current->next;
+        current = current->next ? current->next : head;
+
+        if (current == start)
+            break;
     }
 
     Segment *newSegment = (Segment *)malloc(sizeof(Segment));
@@ -84,10 +134,14 @@ void *allocate_memory(size_t size)
     newSegment->is_free = 0;
     newSegment->next = head;
     head = newSegment;
+    last_allocated = newSegment;
+
+    segment_count++;
+    switch_allocation_algorithm();
 
     pthread_mutex_unlock(&heap_mutex);
 
-    printf("%s", getHeapOverview());
+    // printf("%s", getHeapOverview());
 
     return newSegment->memory;
 }
@@ -106,18 +160,13 @@ int free_memory(void *ptr)
     // First fit
     while (current)
     {
-        if (current->memory == ptr)
+        if (current->memory == ptr && !current->is_free)
         {
-            if (current->is_free) // memorija nije ni bila zauzeta
-            {
-                pthread_mutex_unlock(&heap_mutex);
-                return -1;
-            }
             current->is_free = 1;
             memset(current->memory, 0, SEGMENT_SIZE);
             is_found = 1;
-            break;
         }
+
         if (current->is_free)
             free_segments++;
 
@@ -130,32 +179,32 @@ int free_memory(void *ptr)
         return -2;
     }
 
-    while (free_segments > MAX_FREE_SEGMENTS)
-    {
-        Segment *temp = NULL;
-        current = head;
+    Segment *temp = NULL;
+    current = head;
 
-        while (current)
+    while (current && free_segments > MAX_FREE_SEGMENTS)
+    {
+        if (current->is_free)
         {
-            if (current->is_free)
-            {
-                if (temp == NULL)
-                {
-                    head = current->next;
-                }
-                else
-                {
-                    temp->next = current->next;
-                }
-                free(current->memory);
-                free(current);
-                free_segments--;
-                break;
-            }
-            temp = current;
+            if (temp == NULL)
+                head = current->next;
+            else
+                temp->next = current->next;
+
+            Segment *to_free = current;
             current = current->next;
+            free(to_free->memory);
+            free(to_free);
+            free_segments--;
+            segment_count--;
+            continue;
         }
+
+        temp = current;
+        current = current->next;
     }
+
+    switch_allocation_algorithm();
 
     pthread_mutex_unlock(&heap_mutex);
     return 1;
@@ -196,8 +245,8 @@ char *getHeapOverview()
 {
     pthread_mutex_lock(&heap_mutex);
 
-    static char retVal[HEAP_OVERVIEW_BUFFER_SIZE]; //nije heap memorija, alo moze biti u buducnosti
-    retVal[0] = '\0'; 
+    static char retVal[HEAP_OVERVIEW_BUFFER_SIZE]; // nije heap memorija, alo moze biti u buducnosti
+    retVal[0] = '\0';
 
     strcat(retVal, "\nHeap Overview:\n");
     strcat(retVal, "========================================\n");
@@ -225,7 +274,7 @@ char *getHeapOverview()
 
     pthread_mutex_unlock(&heap_mutex);
 
-    return retVal; 
+    return retVal;
 }
 
 /*
